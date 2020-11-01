@@ -9,17 +9,32 @@
 <form action="" method="post">
 {% csrf_token %}
 
-    <div class="row">
-        <div class="card" style="width: 18rem;display: block;margin: auto;">
+    <div class="row" style="border-left: 10px; background-image: url('{{cover}}'); background-repeat: no-repeat; background-size: auto;">
+    <div class="col-sm-8"></div>
+    <div class="col-sm-4">
+          <div class="card" style="width: 18rem;display: block;margin: auto;">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <div class="col">
+            </div>
+            <div class="col">
+                <h4 class="card-title">{{title}}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">Gatunek : {{genres}}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Premiera: {{release_world}}</h6>
+                <p class="card-text" style="width:200px; height:285px;"><img src="{{poster_url}}" alt="{{poster_alt}}"></p>
+                <a href="#" class="card-link">
+                    <button type="submit" value="NewMovie"    name="movie" class="btn btn-primary" onclick="normal()">Losuj dalej
+                </button></a>
+            </div>
           </div>
-        </div>
+          </div>
     </div>
+
+
+    </div>
+
+
+
+
 
 </form>
 {% endblock %}
