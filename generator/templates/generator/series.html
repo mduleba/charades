@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block library %}
+
+<style>
+    #timer {
+      font-family: 'Titillium Web', cursive;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+      font-weight: 100;
+    }
+
+    #timer div {
+      display: inline-block;
+      line-height: 1;
+      padding: 8px;
+      font-size: 32px;
+    }
+
+    #timer span {
+      display: block;
+      font-size: 16px;
+      color: white;
+    }
+    #minutes {
+      font-size: 80px;
+      /*color: #f6da74;*/
+      color: #abcd58;
+    }
+    #seconds {
+      font-size: 40px;
+      color: #abcd58;
+    }
+</style>
+
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+<form action="" method="post">
+{% csrf_token %}
+
+    <div class="row" style="background-image: url('{{cover}}'); background-repeat: no-repeat; background-size: cover; background-position: center;">
+        <div id="timer" style="background-color: #0285B4; position: absolute; left: 50%; transform: translateX(-50%);
+                                                       border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;">
+            <div id="minutes"></div>
+            <div id="seconds"></div>
+        </div>
+        <div class="col" style="display: flex; align-items: flex-end; flex-direction: column; padding-right:0;">
+            <div style="background-color: white; width: 20%; padding-left:10px;">
+                <div id="series-info">
+                    <h4 class="card-title">{{title}}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">Gatunek : {{genres}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Premiera: {{release_world}}</h6>
+                    <p class="card-text" style="width:200px; height:285px;"><img src="{{poster_url}}" alt="{{poster_alt}}"></p>
+                </div>
+                <div id="series-submit" style="padding-top:10px;">
+                    <button type="submit" value="NewSeries"    name="series" class="btn btn-primary" onclick="normal()">Losuj dalej
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<script>
+
+    var diff = 3;
+    var old_now = new Date();
+    var endTime = new Date(old_now.getTime() + diff*60000);
+    endTime = (Date.parse(endTime) / 1000);
+
+function makeTimer() {
+
+	//		var endTime = new Date("29 April 2018 9:56:00 GMT+01:00");
+
+        var now = new Date();
+		now = (Date.parse(now) / 1000);
+
+		var timeLeft = endTime - now;
+
+		var days = Math.floor(timeLeft / 86400);
+		var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+		var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+		var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+
+		if (hours < "10") { hours = "0" + hours; }
+		if (minutes < "10") { minutes = "0" + minutes; }
+		if (seconds < "10") { seconds = "0" + seconds; }
+
+		if (now > endTime) {
+            $("#minutes").html("<b style='color: #DC143C'>" + 0 + "<span>minut</span></b>");
+		    $("#seconds").html("<b style='color: #DC143C'>" + 0 + "<span>sekund</span></b>");
+        } else if (minutes == 0 && seconds > 0) {
+		    $("#minutes").html("<b style='color: #f6da74'>" + minutes + "<span>minut</span></b>");
+		    $("#seconds").html("<b style='color: #f6da74'>" + seconds + "<span>sekund</span></b>");
+
+        } else {
+		    $("#minutes").html("<b>" + minutes + "<span>minut</span></b>");
+		    $("#seconds").html("<b>" + seconds + "<span>sekund</span></b>");
+        }
+
+	}
+
+	setInterval(function() { makeTimer(); }, 0);
+
+</script>
+{% endblock %}
